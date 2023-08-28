@@ -5,6 +5,19 @@ gamma = 1
 def is_number(s):
     return re.match('^-?\d*\.?\d*$', s) != None
 
+def calculate_g(S, A, trajectories):
+	st.write('G:')
+	cols = st.columns(len(trajectories))
+	
+	for i,t in enumerate(trajectories):
+		with cols[i]:
+			st.write(f'Trajectories {i}: ')
+			t = t.split()
+			for j in range(len(t)):
+				if t[j].startswith('S'):
+					g = sum([float(t[k]) for k in range(j+1, len(t)) if is_number(t[k])])
+					st.write(f'G({t[j]}): {g}')
+
 def count_state_action(s, a, trajectories):
     count = 0
     for t in trajectories:
@@ -85,8 +98,8 @@ def calculate_prob(S, A, trajectories):
 text = st.text_area('Input', value='S3 A1 S1 A2 S2 A1 0.1 S3 A2 1 T\nS1 A2 -0.1 S1 A1 S3 A1 S2 A2 -0.1 S3 A2 1 T')
 if st.button('OK'):
     trajectories = text.splitlines()
-    G = [sum([float(s) for s in t.split() if is_number(s)]) for t in trajectories]
-    st.write('G:', *G)
+    # G = [sum([float(s) for s in t.split() if is_number(s)]) for t in trajectories]
+    # st.write('G:', *G)
     
     S,A = [],[]
     for t in trajectories:
@@ -94,6 +107,8 @@ if st.button('OK'):
         A.extend([s for s in t.split() if s.startswith('A')])
     S = set(S)
     A = set(A)
+    
+    calculate_g(S, A, trajectories)
     
     V = calculate_state_value(S, A, trajectories)
     st.write('V:', V)
