@@ -79,8 +79,7 @@ def calculate_prob(S, A, trajectories):
             if count_sa != 0:
                 for s_ in S:
                     count_sas = count_state_action_state(s, a, s_, trajectories)
-                    if count_sas != 0:
-                        P[(s,a,s_)] = count_sas/count_sa
+                    P[(s,a,s_)] = count_sas/count_sa
     return P
 
 text = st.text_area('Input', value='S3 A1 S1 A2 S2 A1 0.1 S3 A2 1 T\nS1 A2 -0.1 S1 A1 S3 A1 S2 A2 -0.1 S3 A2 1 T')
@@ -101,7 +100,6 @@ if st.button('OK'):
     
     col1, col2, col3 = st.columns(3)
     with col1:
-    
         Q = calculate_action_value(S, A, trajectories)
         for k,v in Q.items():
             st.write('Q',k,v)
