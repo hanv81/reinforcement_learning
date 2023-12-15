@@ -1,7 +1,6 @@
 import streamlit as st
 import re
 
-gamma = 1
 def is_number(s):
     return re.match('^-?\d*\.?\d*$', s) != None
 
